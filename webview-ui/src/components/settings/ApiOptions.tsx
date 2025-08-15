@@ -140,12 +140,10 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 				<VSCodeDropdown
 					id="api-provider"
 					value={selectedProvider}
-					onChange={(e: any) => {
-						handleModeFieldChange(
-							{ plan: "planModeApiProvider", act: "actModeApiProvider" },
-							e.target.value,
-							currentMode,
-						)
+					onChange={(e: unknown) => {
+						const target = e as Event & { target: HTMLSelectElement }
+						const value = target.target.value as ApiProvider
+						handleModeFieldChange({ plan: "planModeApiProvider", act: "actModeApiProvider" }, value, currentMode)
 					}}
 					style={{
 						minWidth: 130,

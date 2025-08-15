@@ -2,7 +2,8 @@ import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { useApiConfigurationHandlers } from "./utils/useApiConfigurationHandlers"
 import { PROVIDER_OPTIONS } from "./providers/providerList"
-import { ApiProvider } from "@shared/api"
+import { ApiProvider, ApiConfiguration } from "@shared/api"
+import { FormEvent } from "react"
 
 const ProviderChecklist = () => {
 	const { apiConfiguration } = useExtensionState()
@@ -15,7 +16,7 @@ const ProviderChecklist = () => {
 		const current = enabled
 		const updated = checked ? Array.from(new Set([...current, provider])) : current.filter((p) => p !== provider)
 
-		const updates: any = { enabledApiProviders: updated }
+		const updates: Partial<ApiConfiguration> = { enabledApiProviders: updated }
 		const fallback = updated[0]
 		if (!checked) {
 			if (apiConfiguration?.planModeApiProvider === provider) {
@@ -36,7 +37,10 @@ const ProviderChecklist = () => {
 				<VSCodeCheckbox
 					key={opt.value}
 					checked={enabled.includes(opt.value)}
-					onChange={(e: any) => toggleProvider(opt.value, e.target.checked === true)}>
+					onChange={(e: unknown) => {
+						const target = e as Event & { target: HTMLInputElement }
+						toggleProvider(opt.value, target.target.checked === true)
+					}}>
 					{opt.label}
 				</VSCodeCheckbox>
 			))}
