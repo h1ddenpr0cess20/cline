@@ -22,7 +22,6 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 		<div>
 			{renderSectionHeader("api-config")}
 			<Section>
-				<ProviderChecklist />
 				{/* Tabs container */}
 				{planActSeparateModelsSetting ? (
 					<div className="rounded-md mb-5 bg-[var(--vscode-panel-background)]">
@@ -57,6 +56,8 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 				) : (
 					<ApiOptions showModelOptions={true} currentMode={mode} />
 				)}
+
+				<ProviderChecklist />
 
 				<div className="mb-[5px]">
 					<VSCodeCheckbox
