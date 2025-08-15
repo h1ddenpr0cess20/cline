@@ -7,19 +7,15 @@ Use these commands to rebuild Cline after making changes:
    npm install
    npm run install:all
    ```
-2. **Generate Protocol Buffers** (needed after editing files in `proto/`)
-   ```bash
-   npm run protos
-   ```
-3. **Build the webview UI**
+2. **Build the webview UI** *(regenerates protos automatically)*
    ```bash
    npm run build:webview
    ```
-4. **Compile the extension**
+3. **Compile the extension**
    ```bash
    npm run compile
    ```
-5. **Package the extension** *(optional)*
+4. **Package the extension** *(optional)*
    ```bash
    npm run package
    ```
