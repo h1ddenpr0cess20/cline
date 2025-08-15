@@ -7,6 +7,8 @@ import { useInterval } from "react-use"
 import styled from "styled-components"
 import { OPENROUTER_MODEL_PICKER_Z_INDEX } from "./OpenRouterModelPicker"
 import { normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
+import { PROVIDER_OPTIONS } from "./providers/providerList"
+import { ApiProvider } from "@shared/api"
 import { ClineProvider } from "./providers/ClineProvider"
 import { OpenRouterProvider } from "./providers/OpenRouterProvider"
 import { MistralProvider } from "./providers/MistralProvider"
@@ -77,9 +79,21 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 	// Use full context state for immediate save payload
 	const { apiConfiguration } = useExtensionState()
 
+	const { handleModeFieldChange } = useApiConfigurationHandlers()
+
 	const { selectedProvider } = normalizeApiConfiguration(apiConfiguration, currentMode)
 
-	const { handleModeFieldChange } = useApiConfigurationHandlers()
+	const enabledProviders = apiConfiguration?.enabledApiProviders
+	const providerOptions = enabledProviders
+		? PROVIDER_OPTIONS.filter((p) => enabledProviders.includes(p.value))
+		: PROVIDER_OPTIONS
+
+	useEffect(() => {
+		if (enabledProviders && !enabledProviders.includes(selectedProvider)) {
+			const fallback = enabledProviders[0] || PROVIDER_OPTIONS[0].value
+			handleModeFieldChange({ plan: "planModeApiProvider", act: "actModeApiProvider" }, fallback, currentMode)
+		}
+	}, [enabledProviders, selectedProvider, currentMode, handleModeFieldChange])
 
 	const [ollamaModels, setOllamaModels] = useState<string[]>([])
 
@@ -126,48 +140,20 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 				<VSCodeDropdown
 					id="api-provider"
 					value={selectedProvider}
-					onChange={(e: any) => {
-						handleModeFieldChange(
-							{ plan: "planModeApiProvider", act: "actModeApiProvider" },
-							e.target.value,
-							currentMode,
-						)
+					onChange={(e: unknown) => {
+						const target = e as Event & { target: HTMLSelectElement }
+						const value = target.target.value as ApiProvider
+						handleModeFieldChange({ plan: "planModeApiProvider", act: "actModeApiProvider" }, value, currentMode)
 					}}
 					style={{
 						minWidth: 130,
 						position: "relative",
 					}}>
-					<VSCodeOption value="cline">Cline</VSCodeOption>
-					<VSCodeOption value="openrouter">OpenRouter</VSCodeOption>
-					<VSCodeOption value="anthropic">Anthropic</VSCodeOption>
-					<VSCodeOption value="claude-code">Claude Code</VSCodeOption>
-					<VSCodeOption value="bedrock">Amazon Bedrock</VSCodeOption>
-					<VSCodeOption value="openai">OpenAI Compatible</VSCodeOption>
-					<VSCodeOption value="vertex">GCP Vertex AI</VSCodeOption>
-					<VSCodeOption value="gemini">Google Gemini</VSCodeOption>
-					<VSCodeOption value="groq">Groq</VSCodeOption>
-					<VSCodeOption value="deepseek">DeepSeek</VSCodeOption>
-					<VSCodeOption value="openai-native">OpenAI</VSCodeOption>
-					<VSCodeOption value="cerebras">Cerebras</VSCodeOption>
-					<VSCodeOption value="baseten">Baseten</VSCodeOption>
-					<VSCodeOption value="vscode-lm">VS Code LM API</VSCodeOption>
-					<VSCodeOption value="mistral">Mistral</VSCodeOption>
-					<VSCodeOption value="requesty">Requesty</VSCodeOption>
-					<VSCodeOption value="fireworks">Fireworks</VSCodeOption>
-					<VSCodeOption value="together">Together</VSCodeOption>
-					<VSCodeOption value="qwen">Alibaba Qwen</VSCodeOption>
-					<VSCodeOption value="doubao">Bytedance Doubao</VSCodeOption>
-					<VSCodeOption value="lmstudio">LM Studio</VSCodeOption>
-					<VSCodeOption value="ollama">Ollama</VSCodeOption>
-					<VSCodeOption value="litellm">LiteLLM</VSCodeOption>
-					<VSCodeOption value="moonshot">Moonshot</VSCodeOption>
-					<VSCodeOption value="huggingface">Hugging Face</VSCodeOption>
-					<VSCodeOption value="nebius">Nebius AI Studio</VSCodeOption>
-					<VSCodeOption value="asksage">AskSage</VSCodeOption>
-					<VSCodeOption value="xai">xAI</VSCodeOption>
-					<VSCodeOption value="sambanova">SambaNova</VSCodeOption>
-					<VSCodeOption value="sapaicore">SAP AI Core</VSCodeOption>
-					<VSCodeOption value="huawei-cloud-maas">Huawei Cloud MaaS</VSCodeOption>
+					{providerOptions.map((opt) => (
+						<VSCodeOption key={opt.value} value={opt.value}>
+							{opt.label}
+						</VSCodeOption>
+					))}
 				</VSCodeDropdown>
 			</DropdownContainer>
 

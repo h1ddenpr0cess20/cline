@@ -51,6 +51,7 @@ export async function readStateFromDisk(context: ExtensionContext) {
 	const asksageApiUrl = context.globalState.get("asksageApiUrl") as string | undefined
 	const planActSeparateModelsSettingRaw = context.globalState.get("planActSeparateModelsSetting") as boolean | undefined
 	const favoritedModelIds = context.globalState.get("favoritedModelIds") as string[] | undefined
+	const enabledApiProviders = context.globalState.get("enabledApiProviders") as ApiProvider[] | undefined
 	const globalClineRulesToggles = context.globalState.get("globalClineRulesToggles") as ClineRulesToggles | undefined
 	const requestTimeoutMs = context.globalState.get("requestTimeoutMs") as number | undefined
 	const shellIntegrationTimeout = context.globalState.get("shellIntegrationTimeout") as number | undefined
@@ -297,6 +298,7 @@ export async function readStateFromDisk(context: ExtensionContext) {
 			moonshotApiKey,
 			nebiusApiKey,
 			favoritedModelIds,
+			enabledApiProviders,
 			requestTimeoutMs,
 			sapAiCoreClientId,
 			sapAiCoreClientSecret,

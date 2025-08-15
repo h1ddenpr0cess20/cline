@@ -67,6 +67,7 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		sapAiResourceGroup: config.sapAiResourceGroup,
 		sapAiCoreTokenUrl: config.sapAiCoreTokenUrl,
 		sapAiCoreBaseUrl: config.sapAiCoreBaseUrl,
+		enabledApiProviders: (config.enabledApiProviders || []) as string[],
 
 		// Plan mode configurations
 		planModeApiProvider: config.planModeApiProvider,
@@ -194,6 +195,7 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		sapAiResourceGroup: protoConfig.sapAiResourceGroup,
 		sapAiCoreTokenUrl: protoConfig.sapAiCoreTokenUrl,
 		sapAiCoreBaseUrl: protoConfig.sapAiCoreBaseUrl,
+		enabledApiProviders: protoConfig.enabledApiProviders as ApiProvider[],
 
 		// Plan mode configurations
 		planModeApiProvider: protoConfig.planModeApiProvider as ApiProvider,

@@ -183,12 +183,12 @@
 				"group": "Troubleshooting",
 				"pages": ["troubleshooting/terminal-quick-fixes", "troubleshooting/terminal-integration-guide"]
 			},
-			{
-				"group": "More Info",
-				"pages": ["more-info/telemetry"]
-			}
-		]
-	},
+                        {
+                                "group": "More Info",
+                                "pages": ["more-info/telemetry", "more-info/rebuild-extension"]
+                        }
+                ]
+        },
 	"footer": {
 		"socials": {
 			"x": "https://x.com/cline",
