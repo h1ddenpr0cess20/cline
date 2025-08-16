@@ -2,6 +2,7 @@ import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { TabButton } from "../../mcp/configuration/McpConfigurationView"
 import ApiOptions from "../ApiOptions"
 import Section from "../Section"
+import ProviderChecklist from "../ProviderChecklist"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
 import { UpdateSettingsRequest } from "@shared/proto/cline/state"
@@ -55,6 +56,8 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 				) : (
 					<ApiOptions showModelOptions={true} currentMode={mode} />
 				)}
+
+				<ProviderChecklist />
 
 				<div className="mb-[5px]">
 					<VSCodeCheckbox

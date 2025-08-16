@@ -27,6 +27,7 @@ import {
 	WelcomeSection,
 } from "./chat-view"
 import AutoApproveBar from "./auto-approve-menu/AutoApproveBar"
+import ChecklistRenderer from "@/components/common/ChecklistRenderer"
 
 interface ChatViewProps {
 	isHidden: boolean
@@ -355,14 +356,22 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 					/>
 				)}
 				{task && (
-					<MessagesArea
-						task={task}
-						groupedMessages={groupedMessages}
-						modifiedMessages={modifiedMessages}
-						scrollBehavior={scrollBehavior}
-						chatState={chatState}
-						messageHandlers={messageHandlers}
-					/>
+					<div className="flex flex-col flex-1 overflow-hidden">
+						<MessagesArea
+							task={task}
+							groupedMessages={groupedMessages}
+							modifiedMessages={modifiedMessages}
+							scrollBehavior={scrollBehavior}
+							chatState={chatState}
+							messageHandlers={messageHandlers}
+						/>
+						{/* Moved checklist underneath the other element on the current tab */}
+						{lastProgressMessageText && (
+							<div className="p-4 border-t border-[var(--vscode-panel-border)]">
+								<ChecklistRenderer text={lastProgressMessageText} />
+							</div>
+						)}
+					</div>
 				)}
 			</div>
 			<footer className="bg-[var(--vscode-sidebar-background)]" style={{ gridRow: "2" }}>

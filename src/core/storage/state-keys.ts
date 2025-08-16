@@ -86,6 +86,7 @@ export type GlobalStateKey =
 	| "enableCheckpointsSetting"
 	| "mcpMarketplaceEnabled"
 	| "favoritedModelIds"
+	| "enabledApiProviders"
 	| "requestTimeoutMs"
 	| "shellIntegrationTimeout"
 	| "mcpResponsesCollapsed"
@@ -208,6 +209,7 @@ export interface GlobalState {
 	enableCheckpointsSetting: boolean
 	mcpMarketplaceEnabled: boolean
 	favoritedModelIds: string[] | undefined
+	enabledApiProviders: ApiProvider[] | undefined
 	requestTimeoutMs: number | undefined
 	shellIntegrationTimeout: number
 	mcpResponsesCollapsed: boolean

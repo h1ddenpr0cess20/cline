@@ -96,7 +96,7 @@ export const useClineAuth = () => {
 
 export const handleSignIn = async () => {
 	try {
-		AccountServiceClient.accountLoginClicked(EmptyRequest.create()).catch((err) =>
+		AccountServiceClient.accountLoginClicked(EmptyRequest.create()).catch((err: unknown) =>
 			console.error("Failed to get login URL:", err),
 		)
 	} catch (error) {
@@ -107,7 +107,7 @@ export const handleSignIn = async () => {
 
 export const handleSignOut = async () => {
 	try {
-		await AccountServiceClient.accountLogoutClicked(EmptyRequest.create()).catch((err) =>
+		await AccountServiceClient.accountLogoutClicked(EmptyRequest.create()).catch((err: unknown) =>
 			console.error("Failed to logout:", err),
 		)
 	} catch (error) {

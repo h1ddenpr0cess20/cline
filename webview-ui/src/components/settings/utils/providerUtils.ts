@@ -71,8 +71,12 @@ export function normalizeApiConfiguration(
 	apiConfiguration: ApiConfiguration | undefined,
 	currentMode: Mode,
 ): NormalizedApiConfig {
-	const provider =
+	let provider =
 		(currentMode === "plan" ? apiConfiguration?.planModeApiProvider : apiConfiguration?.actModeApiProvider) || "anthropic"
+	const enabledProviders = apiConfiguration?.enabledApiProviders
+	if (enabledProviders && !enabledProviders.includes(provider)) {
+		provider = enabledProviders[0] || "anthropic"
+	}
 	const modelId = currentMode === "plan" ? apiConfiguration?.planModeApiModelId : apiConfiguration?.actModeApiModelId
 
 	const getProviderData = (models: Record<string, ModelInfo>, defaultId: string) => {
